@@ -1,0 +1,9 @@
+:label1
+LRI 1111 00110011
+IOW 0101 10101010
+IOR 0000 01010101
+ARI 1100 11001100
+:label2
+BEZ label1 // Sample Comment
+BNZ label2
+JMP label1
