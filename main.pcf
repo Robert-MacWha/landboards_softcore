@@ -1,0 +1,8 @@
+// CLK
+set_io clk 21
+
+// Inputs
+set_io -pullup yes i_key0 78
+
+// Outputs
+set_io o_d1 99
