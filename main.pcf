@@ -1,8 +1,12 @@
-// CLK
-set_io clk 21
+# CLK
+set_io i_clk 21
 
-// Inputs
-set_io -pullup yes i_key0 78
+# Inputs
+set_io -pullup yes i_btn[0] 78
+set_io -pullup yes i_btn[1] 79
 
-// Outputs
-set_io o_d1 99
+# Outputs
+set_io o_led[0] 99
+set_io o_led[1] 98
+set_io o_led[2] 97
+set_io o_led[3] 96

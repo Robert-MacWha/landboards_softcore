@@ -2,20 +2,22 @@
 //? By default, the data at the selected address will be written to data out. If 
 //? the load signal is high, the data from data in will be written to the selected 
 //? address.
-module RegisterFile #(
-    parameter SELECT_WIDTH = 4, //? Size of the register select signal
-    parameter REG_WIDTH = 8     //? Size of a single register
-) (
-    input  wire                    i_clk,
-    input  wire                    i_ldSig,    //? Load signal
-    input  wire [SELECT_WIDTH-1:0] i_regSel,   //? Register select address
-    input  wire [   REG_WIDTH-1:0] i_regData,  //? Register data in
-    output reg  [   REG_WIDTH-1:0] o_regData   //? Register data out
+//? 
+//? Registers 0-4 are writable. The remaining registers are constants:
+//?  - 8:  0x00
+//?  - 9:  0x01
+//?  - 10: 0xff 
+module RegisterFile (
+    input  wire       i_clk,
+    input  wire       i_ldSig,    //? Load signal
+    input  wire [3:0] i_regSel,   //? Register select address
+    input  wire [7:0] i_regData,  //? Register data in
+    output reg  [7:0] o_regData   //? Register data out
 );
-    reg [REG_WIDTH-1:0] reg0 = 0;
-    reg [REG_WIDTH-1:0] reg1 = 0;
-    reg [REG_WIDTH-1:0] reg2 = 0;
-    reg [REG_WIDTH-1:0] reg3 = 0;
+    reg [7:0] reg0 = 0;
+    reg [7:0] reg1 = 0;
+    reg [7:0] reg2 = 0;
+    reg [7:0] reg3 = 0;
 
     //? Register manipulation
     always @(posedge i_clk) begin

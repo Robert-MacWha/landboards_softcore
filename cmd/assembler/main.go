@@ -61,7 +61,7 @@ func loadInstructions(path string) ([]opcodes.Instruction, error) {
 			strs[n] = s
 			n++
 		} else {
-			labels[s[1:]] = n
+			labels[strings.Split(s[1:], " ")[0]] = n
 		}
 	}
 	strs = strs[:n]

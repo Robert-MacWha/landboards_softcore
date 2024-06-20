@@ -1,23 +1,21 @@
 module ROM #(
-    parameter INIT_FILE  = "",
-    parameter ADDR_WIDTH = 10,
-    parameter DATA_WIDTH = 16
+    parameter INIT_FILE = ""
 ) (
-    input i_clk,
-    input [ADDR_WIDTH-1:0] i_addr,
-    output reg [DATA_WIDTH-1:0] o_data
+    input             i_clk,
+    input      [ 9:0] i_addr,
+    output reg [15:0] o_data
 );
-    reg [DATA_WIDTH-1:0] rom[0:(1 << ADDR_WIDTH)-1];
+    reg [15:0] rom[0:(1 << 10)-1];
 
     always @(posedge i_clk) begin
-        // read to memory
+        // read from memory
         o_data <= rom[i_addr];
     end
 
     // Initialize memory
     initial begin
-        if (INIT_FILE) begin
-            $readmemh(INIT_FILE, rom);
+        if (INIT_FILE != "") begin
+            $readmemb(INIT_FILE, rom);
         end
     end
 endmodule

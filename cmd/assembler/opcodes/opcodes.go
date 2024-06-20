@@ -12,7 +12,7 @@ type OP byte
 type Instruction struct {
 	Opcode   OP
 	Register string
-	Offset   string
+	Value    string
 	Comment  string
 }
 
@@ -45,11 +45,11 @@ func (o OP) String() string {
 }
 
 func (i Instruction) String() string {
-	return fmt.Sprintf("%s%s%s", i.Opcode, i.Register, i.Offset)
+	return fmt.Sprintf("%s%s%s", i.Opcode, i.Register, i.Value)
 }
 
 func (i Instruction) InfoStr() string {
-	return fmt.Sprintf("%s %s %s %s", OpNames[i.Opcode], i.Register, i.Offset, i.Comment)
+	return fmt.Sprintf("%s %s %s %s", OpNames[i.Opcode], i.Register, i.Value, i.Comment)
 }
 
 func ParseInstruction(str string, labels map[string]int) (*Instruction, error) {
@@ -83,7 +83,7 @@ func ParseInstruction(str string, labels map[string]int) (*Instruction, error) {
 		}
 
 		instruction.Register = reg
-		instruction.Offset = val
+		instruction.Value = val
 		instruction.Comment = strings.Join(splitStr[3:], " ")
 	case BEZ, BNZ, JMP:
 		if len(splitStr) < 2 {
@@ -102,7 +102,7 @@ func ParseInstruction(str string, labels map[string]int) (*Instruction, error) {
 			return nil, fmt.Errorf("parseBits(%v): %w", addr, err)
 		}
 
-		instruction.Offset = addr
+		instruction.Value = addr
 		instruction.Comment = strings.Join(splitStr[2:], " ")
 	}
 
@@ -123,12 +123,16 @@ func parseBits(n int, s string) (string, error) {
 
 	switch s[0] {
 	case 'h': // Hexadecimal
-		hexStr, err := hex.DecodeString(s[1:])
+		b, err := hex.DecodeString(s[1:])
 		if err != nil {
 			return "", fmt.Errorf("DecodeString: %w", err)
 		}
 
-		binStr = fmt.Sprintf("%0*b", len(hexStr)*8, hexStr)
+		if len(b) > 1 {
+			return "", fmt.Errorf("expected 1 byte, got %d", len(b))
+		}
+
+		binStr = fmt.Sprintf("%08b", b[0])
 
 	case 'b', '0', '1': // Binary
 		binStr = s[1:]

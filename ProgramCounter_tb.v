@@ -6,8 +6,8 @@ module ProgramCounter_tb ();
     reg w_rst = 0;
     reg w_loadPC = 0;
     reg w_incPC = 0;
-    reg [12:0] w_PCVal = 0;
-    wire [12:0] w_PC;
+    reg [11:0] w_PCVal = 0;
+    wire [11:0] w_PC;
 
     localparam DURATION = 10_000;
     localparam CLK_FREQUENCY = 41.67;

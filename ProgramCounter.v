@@ -4,8 +4,8 @@ module ProgramCounter (
     input             i_rst,
     input             i_loadPC,  //? Load PC control
     input             i_incPC,   //? Increment PC control
-    input      [12:0] i_PCVal,   //? PC Load Value
-    output reg [12:0] o_PC
+    input      [11:0] i_PCVal,   //? PC Load Value
+    output reg [11:0] o_PC
 );
     always @(posedge i_clk or posedge i_rst) begin
         if (i_rst == 1) begin
